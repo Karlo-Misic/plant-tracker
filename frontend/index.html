@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="hr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <title>Plant Tracker</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">🌿 Plant Tracker</div>
+      <div class="right">
+        <span id="me" class="muted"></span>
+        <button id="btnLogout" class="btn ghost hidden">Odjava</button>
+      </div>
+    </header>
+
+    <main class="grid">
+      <section class="card" id="authCard">
+        <h2>Prijava / Registracija</h2>
+
+        <div class="tabs">
+          <button class="tab active" data-tab="login">Prijava</button>
+          <button class="tab" data-tab="register">Registracija</button>
+        </div>
+
+        <form id="loginForm" class="form">
+          <label>Email</label>
+          <input name="email" type="email" required placeholder="kmisic22@foi.hr" />
+          <label>Lozinka</label>
+          <input name="password" type="password" required placeholder="********" />
+          <button class="btn" type="submit">Prijavi se</button>
+          <p class="msg" id="loginMsg"></p>
+        </form>
+
+        <form id="registerForm" class="form hidden">
+          <label>Email</label>
+          <input name="email" type="email" required />
+          <label>Lozinka</label>
+          <input name="password" type="password" required />
+          <button class="btn" type="submit">Registriraj se</button>
+          <p class="msg" id="registerMsg"></p>
+        </form>
+      </section>
+
+      <section class="card hidden" id="appCard">
+        <div class="row">
+          <h2>Moje biljke</h2>
+          <button class="btn" id="btnRefresh">Osvježi</button>
+        </div>
+
+        <div class="two">
+          <div>
+            <h3>Popis</h3>
+            <ul id="plantList" class="list"></ul>
+          </div>
+
+          <div>
+            <h3>Nova biljka</h3>
+            <form id="plantForm" class="form compact">
+              <label>Naziv</label>
+              <input name="naziv" required />
+              <label>Vrsta</label>
+              <input name="vrsta" required />
+              <label>Datum nabave</label>
+              <input name="datum_nabave" type="date" />
+              <label>Lokacija</label>
+              <input name="lokacija" />
+              <button class="btn" type="submit">Spremi biljku</button>
+              <p class="msg" id="plantMsg"></p>
+            </form>
+          </div>
+        </div>
+
+        <hr/>
+
+        <div id="details" class="hidden">
+          <div class="row">
+            <h2 id="plantTitle">Biljka</h2>
+            <span class="muted" id="plantMeta"></span>
+          </div>
+
+          <div class="three">
+            <div>
+              <h3>Događaj njege</h3>
+              <form id="eventForm" class="form compact">
+                <label>Vrsta događaja</label>
+                <input name="vrsta_dogadjaja" placeholder="zalijevanje / prihrana..." required />
+                <label>Vrijeme</label>
+                <input name="vrijeme_dogadjaja" type="datetime-local" />
+                <label>Opis</label>
+                <input name="opis" />
+                <button class="btn" type="submit">Dodaj događaj</button>
+                <p class="msg" id="eventMsg"></p>
+              </form>
+              <ul id="eventList" class="list small"></ul>
+            </div>
+
+            <div>
+              <h3>Podsjetnik</h3>
+              <form id="remForm" class="form compact">
+                <label>Vrsta</label>
+                <input name="vrsta_podsjetnika" placeholder="zalijevanje..." required />
+                <label>Rok</label>
+                <input name="rok" type="datetime-local" required />
+                <label>Status</label>
+                <select name="status">
+                  <option value="aktivan">aktivan</option>
+                  <option value="izvrsen">izvršen</option>
+                  <option value="otkazan">otkazan</option>
+                </select>
+                <button class="btn" type="submit">Dodaj podsjetnik</button>
+                <p class="msg" id="remMsg"></p>
+              </form>
+              <ul id="remList" class="list small"></ul>
+            </div>
+
+            <div>
+              <h3>Fotografija</h3>
+              <form id="photoForm" class="form compact">
+                <label>Opis</label>
+                <input name="opis" />
+                <label>Datoteka</label>
+                <input name="file" type="file" accept="image/*" required />
+                <button class="btn" type="submit">Upload</button>
+                <p class="msg" id="photoMsg"></p>
+              </form>
+              <div id="photoGrid" class="photos"></div>
+            </div>
+          </div>
+
+          <hr/>
+
+          <div class="two">
+            <div>
+              <h3>Stanje biljke (temporalno)</h3>
+              <form id="stateForm" class="form compact">
+                <label>Razdoblje valjanosti (od)</label>
+                <input name="od" type="date" required />
+                <label>Razdoblje valjanosti (do)</label>
+                <input name="doo" type="date" required />
+                <label>Visina (cm)</label>
+                <input name="visina_cm" type="number" step="0.1" />
+                <label>Broj listova</label>
+                <input name="broj_listova" type="number" />
+                <label>Ocjena zdravlja (1-5)</label>
+                <input name="ocjena_zdravlja" type="number" min="1" max="5" />
+                <label>Napomena</label>
+                <input name="napomena" />
+                <button class="btn" type="submit">Spremi stanje</button>
+                <p class="msg" id="stateMsg"></p>
+              </form>
+
+              <div style="margin-top:0.75rem">
+                <h4>Provjeri stanje na datum</h4>
+                <form id="stateAtForm" class="form compact" onsubmit="event.preventDefault()">
+                  <label>Datum</label>
+                  <input name="date" type="date" required />
+                  <button class="btn" type="submit">Provjeri</button>
+                  <p class="msg" id="stateAtMsg"></p>
+                </form>
+                <div id="stateAtResult" class="muted"></div>
+              </div>
+            </div>
+
+            <div>
+              <h3>Povijest stanja</h3>
+              <ul id="stateList" class="list small"></ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer muted">
+    API: <span id="apiStatus">?</span>
+    </footer>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
