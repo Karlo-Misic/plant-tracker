@@ -69,13 +69,14 @@ U rootu projekta postoji `.env`. Minimalno:
 
 ```env
 PGHOST=localhost
-PGPORT=5432
+PGPORT=5433
 PGUSER=plantuser
 PGPASSWORD=plantpass
 PGDATABASE=plantdb
 
+JWT_SECRET=tajna
+
 PORT=3001
-JWT_SECRET=dev_secret_change_me
 ```
 
 > Napomena: port baze može biti različit ako je promijenjen u `docker-compose.yml` (npr. 5433).
