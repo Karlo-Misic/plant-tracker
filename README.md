@@ -95,7 +95,7 @@ JWT_SECRET=dev_secret_change_me
 
 1. Registriraj korisnika
 2. Dodaj biljku
-3. Dodaj događaj njege (npr. “zalijevanje”)
+3. Dodaj događaj njege (npr. "zalijevanje”)
 4. Provjeri podsjetnike (ručni i automatski)
 5. Uploadaj fotografiju
-6. Dodaj temporalno stanje (interval “od-do”) i provjeri povijest stanja
+6. Dodaj temporalno stanje (interval "od-do”) i provjeri povijest stanja
